@@ -12,7 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-class PruebasSelenium {
+public class PruebasSelenium {
 	
 	static WebDriver driver1;
 
