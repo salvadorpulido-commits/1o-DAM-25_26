@@ -1,0 +1,24 @@
+package ejercicioInterfaces01Socio;
+
+public class Socio implements Comparable<Socio> {
+
+    private int id;
+    private String nombre;
+    private int edad;
+
+    public Socio(int id, String nombre, int edad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    @Override
+    public int compareTo(Socio otro) {
+        return this.id - otro.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Socio{id=" + id + ", nombre=" + nombre + ", edad=" + edad + "}";
+    }
+}

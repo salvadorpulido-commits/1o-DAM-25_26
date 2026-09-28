@@ -1,0 +1,127 @@
+================================================================================
+  ANÁLISIS Y DISEÑO - EJERCICIO ANÁLISIS 02 - Biblioteca
+================================================================================
+
+1. ANÁLISIS
+
+CLASE ABSTRACTA: Ficha
+  Todos los objetos de la biblioteca comparten id y título, y todos se pueden
+  prestar. Como nunca crearemos una "ficha genérica" directamente, la clase
+  será abstracta. El método diasPrestamo() será abstracto porque cada subclase
+  tiene su propio plazo.
+
+  Atributos (protected, heredables):
+    - id     : int
+    - titulo : String
+
+  Constructores:
+    1. Ficha(id, titulo)
+
+  Métodos:
+    - diasPrestamo() : int   abstracto, cada subclase devuelve su plazo
+    - getters / setters de id y titulo
+    - toString()
+
+
+SUBCLASE: Libro  extends  Ficha
+  Atributos propios:
+    - autor     : String
+    - editorial : String
+
+  Valores de préstamo:
+    - diasPrestamo = 15 días
+
+  Constructores:
+    1. Libro(id, titulo, autor, editorial)
+       llama a super(id, titulo)
+
+  Métodos:
+    - diasPrestamo() : int   devuelve 15
+    - getters / setters de autor y editorial
+    - toString()
+
+
+SUBCLASE: Revista  extends  Ficha
+  Atributos propios:
+    - numeroRevista    : int
+    - anioPublicacion  : int
+
+  Valores de préstamo:
+    - diasPrestamo = 10 días
+
+  Constructores:
+    1. Revista(id, titulo, numeroRevista, anioPublicacion)
+       llama a super(id, titulo)
+
+  Métodos:
+    - diasPrestamo() : int   devuelve 10
+    - getters / setters de numeroRevista y anioPublicacion
+    - toString()
+
+
+SUBCLASE: DVD  extends  Ficha
+  Atributos propios:
+    - director : String
+    - anio     : int
+    - tipo     : String   ("película", "documental" o "serie")
+
+  Restricciones de datos:
+    - tipo válido: "película", "documental", "serie" (insensible a mayúsculas)
+    - Si el valor no es válido se aplica "película" como valor por defecto
+
+  Valores de préstamo:
+    - diasPrestamo = 5 días
+
+  Constructores:
+    1. DVD(id, titulo, director, anio, tipo)
+       llama a super(id, titulo)
+
+  Métodos:
+    - diasPrestamo()      : int     devuelve 5
+    - comprobarTipo(String) : String  privado, valida el tipo
+    - getters / setters de director, anio y tipo
+    - toString()
+
+
+CLASE EJECUTABLE: Main
+  - Crea una lista List<Ficha> con distintos objetos (libros, revistas, DVDs)
+  - Recorre la lista e imprime para cada objeto:
+      * Su información completa (toString)
+      * Los días de préstamo que le corresponden (diasPrestamo)
+
+
+================================================================================
+2. DISEÑO
+================================================================================
+
+-----------------------------------------------------------
+│               <<abstract>> Ficha                        │
+-----------------------------------------------------------
+│ # id     : int                                          │
+│ # titulo : String                                       │
+-----------------------------------------------------------
+│ + Ficha(id:int, titulo:String)                          │
+-----------------------------------------------------------
+│ + diasPrestamo()  : int   {abstract}                    │
+│ + getId()         / setId()                             │
+│ + getTitulo()     / setTitulo()                         │
+│ + toString()      : String                              │
+-----------------------------------------------------------
+          ^              ^              ^
+          |              |              |
+    ------       ---------       -------
+    | Libro|     |Revista|       | DVD |
+    -------      ---------       -------
+    autor         numRevista      director
+    editorial     anioPublicacion anio
+    15 días        10 días        tipo
+                                  5 días
+                                  comprobarTipo()
+
+----------------------------
+│           Main           │
+----------------------------
+│ + main(args:String[]):void│
+----------------------------
+  - Crea List<Ficha>
+  - Recorre e imprime info + diasPrestamo() de cada objeto

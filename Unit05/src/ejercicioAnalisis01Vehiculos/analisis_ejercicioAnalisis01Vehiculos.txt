@@ -1,0 +1,154 @@
+================================================================================
+  ANÁLISIS Y DISEÑO - EJERCICIO ANÁLISIS 01 - Vehículos
+================================================================================
+
+1. ANÁLISIS
+
+CLASE ABSTRACTA: Vehiculo
+  Atributos (protected, heredables):
+    - marca            : String
+    - modelo           : String
+    - color            : String
+    - matricula        : String
+    - motorEncendido   : boolean
+    - marchaActual     : int       (0 = punto muerto)
+    - velocidadActual  : int
+
+  Valores por defecto:
+    - motorEncendido  = false
+    - marchaActual    = 0
+    - velocidadActual = 0
+
+  Constructores:
+    1. Vehiculo(marca, modelo, color, matricula)
+       motorEncendido, marchaActual y velocidadActual toman valores por defecto
+
+  Métodos:
+    - arrancar()    : void  enciende el motor si está apagado y la velocidad es 0
+    - parar()       : void  apaga el motor, pone marcha a 0 y velocidad a 0
+    - subirMarcha() : void  incrementa marchaActual si el motor está encendido y marcha < 5
+    - bajarMarcha() : void  decrementa marchaActual si el motor está encendido y marcha > 0
+    - getters / setters de todos los atributos
+    - toString()
+
+  Rangos de marcha:
+    1ª : 0   – 30  km/h
+    2ª : 30  – 50  km/h
+    3ª : 50  – 70  km/h
+    4ª : 70  – 100 km/h
+    5ª : 100 o más km/h
+
+
+SUBCLASE: Turismo  extends  Vehiculo
+  Atributos propios:
+    - numPlazas : int
+    - tipoUso   : String   ("profesional" o "particular")
+
+  Valores por defecto:
+    - numPlazas = 5
+    - tipoUso   = "particular"
+
+  Constructores:
+    1. Turismo(marca, modelo, color, matricula)
+       numPlazas y tipoUso toman valores por defecto
+    2. Turismo(marca, modelo, color, matricula, numPlazas, tipoUso)
+       llama a super(marca, modelo, color, matricula)
+
+  Métodos:
+    - getters / setters de numPlazas y tipoUso
+    - toString()
+
+
+SUBCLASE: Camion  extends  Vehiculo
+  Atributos propios:
+    - pesoMaxAutorizado   : double
+    - mercanciaPeligrosa  : boolean
+
+  Valores por defecto:
+    - pesoMaxAutorizado  = 1000.0 kg
+    - mercanciaPeligrosa = false
+
+  Constructores:
+    1. Camion(marca, modelo, color, matricula)
+       pesoMaxAutorizado y mercanciaPeligrosa toman valores por defecto
+    2. Camion(marca, modelo, color, matricula, pesoMaxAutorizado, mercanciaPeligrosa)
+       llama a super(marca, modelo, color, matricula)
+
+  Métodos:
+    - getters / setters de pesoMaxAutorizado y mercanciaPeligrosa
+    - toString()
+
+
+SUBCLASE: Motocicleta  extends  Vehiculo
+  Atributos propios:
+    - cilindrada : int   (en CC)
+
+  Valores por defecto:
+    - cilindrada = 50 CC
+
+  Constructores:
+    1. Motocicleta(marca, modelo, color, matricula)
+       cilindrada toma valor por defecto
+    2. Motocicleta(marca, modelo, color, matricula, cilindrada)
+       llama a super(marca, modelo, color, matricula)
+
+  Métodos:
+    - requiereCarnet() : boolean   devuelve true si cilindrada >= 125
+    - getter / setter de cilindrada
+    - toString()
+
+
+CLASE EJECUTABLE: Main
+  - Crea un objeto Turismo
+  - Pide al usuario por teclado: velocidad objetivo y tiempo de mantenimiento
+  - Simula la conducción:
+      1. Reposo  : motor apagado, marcha 0, velocidad 0
+      2. Arrancar: enciende el motor
+      3. Acelerar: sube la velocidad en pasos de 10 km/h y ajusta la marcha según rangos
+      4. Mantener: imprime un mensaje indicando que se mantiene la velocidad el tiempo pedido
+      5. Frenar  : baja la velocidad en pasos de 10 km/h y ajusta la marcha según rangos
+      6. Parar   : velocidad 0, punto muerto, motor apagado
+
+
+================================================================================
+2. DISEÑO
+================================================================================
+
+-----------------------------------------------------------
+│              <<abstract>> Vehiculo                      │
+-----------------------------------------------------------
+│ # marca            : String                             │
+│ # modelo           : String                             │
+│ # color            : String                             │
+│ # matricula        : String                             │
+│ # motorEncendido   : boolean                            │
+│ # marchaActual     : int                                │
+│ # velocidadActual  : int                                │
+-----------------------------------------------------------
+│ + Vehiculo(marca, modelo, color, matricula)             │
+-----------------------------------------------------------
+│ + arrancar()       : void                               │
+│ + parar()          : void                               │
+│ + subirMarcha()    : void                               │
+│ + bajarMarcha()    : void                               │
+│ + getters / setters                                     │
+│ + toString()       : String                             │
+-----------------------------------------------------------
+             ^              ^              ^
+             |              |              |
+    ---------     ----------     ----------
+    | Turismo|     | Camion |     |Motocicleta|
+    ---------     ----------     ----------
+    numPlazas     pesoMax        cilindrada
+    tipoUso       mercPeligrosa  requiereCarnet()
+    ---------     ----------     ----------
+
+----------------------------
+│           Main           │
+----------------------------
+│ + main(args:String[]):void│
+----------------------------
+  - Crea Turismo
+  - Lee velocidadObjetivo (Scanner)
+  - Lee tiempoMantenimiento (Scanner)
+  - Simula conducción paso a paso
